@@ -32,9 +32,11 @@ void push(stack* stack, int key) {
         c->next = c->NIL;
         c->prev = c->NIL;
         stack->top = c;
+        stack->bottom = c;
     }
     else{
     Node* c = new Node;
+    stack->top->prev = c;
     c->next = stack->top;
     c->key = key;
     c->prev = c->NIL;
@@ -59,6 +61,7 @@ void pop(stack* stack) {
         Node* c = stack->top->next;
         delete stack->top;
         stack->top = c;
+        stack->top->prev = stack->top->NIL;
         stack->size -= 1;
     }
 }
@@ -66,14 +69,3 @@ void pop(stack* stack) {
 int size(stack* stack) {
     return stack->size;
 }
-
-int main() {
-    stack* s = create_stack();
-    push(s, 9);
-    push(s, 2);
-    std::cout << top(s) << std::endl;
-    pop(s);
-    std::cout << top(s);
-}
-
-
