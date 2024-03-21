@@ -30,12 +30,6 @@ Queue* create_empty_queue() {
     return queue;
 }
 
-void push_front(Node*& head_ref, int new_data){
-    Node* new_node = new Node;
-    new_node->key = new_data;
-    new_node->next = head_ref;
-    head_ref = new_node;
-}
 void push(Queue *q, int key) {
     Node *a = new Node;
     a->key = key;
