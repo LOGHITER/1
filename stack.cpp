@@ -19,6 +19,7 @@ stack* create_stack() {
 }
 
 bool empty(stack* stack) {
+    if(stack == nullptr) {return true;}
     if(stack->size == 0) {
         return true;
     }
@@ -68,4 +69,16 @@ void pop(stack* stack) {
 
 int size(stack* stack) {
     return stack->size;
+}
+
+int main() {
+    stack* s;
+    s = create_stack();
+
+    push(s, 10);
+    push(s, 11);
+    push(s, 12);
+
+    std::cout << top(s);
+    return 0;
 }
