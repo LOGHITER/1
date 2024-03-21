@@ -1,59 +1,76 @@
 #include <iostream>
 
-struct Node
-{
-    Node* next = nullptr;
-    Node* tail = nullptr;
-    int key = 0;
+using namespace std;
+
+struct Node {
+    int key;
+    Node* next;
+    Node* tail;
 };
 
-
-struct queue
-{
+struct Queue {
     Node* HEAD = nullptr;
     Node* TAIL = nullptr;
     Node* NIL = nullptr;
-    size_t size = 0;
+    size_t  size = 0;
 };
 
-void push(Node* queue, int new_data){
+Queue* create_empty_queue();
+void push(Queue *, int);
+void pop(Queue *);
+bool empty(Queue *);
+Node* first(Queue *);
+size_t size(Queue *);
+
+Queue* create_empty_queue() {
+    Queue *queue = new Queue;
+    queue->HEAD = new Node;
+    queue->TAIL = queue->HEAD;
+    queue->NIL = queue->HEAD;
+    return queue;
+}
+
+void push_front(Node*& head_ref, int new_data){
     Node* new_node = new Node;
     new_node->key = new_data;
-    new_node->next = queue;
-    queue = new_node;
+    new_node->next = head_ref;
+    head_ref = new_node;
 }
-
-void pop(Node* queue){
-    Node* new_node = new Node;
-    new_node = queue->next;
-    delete queue;
-    queue = new_node;
-}
-
-void first(Node* queue){
-    while(queue->tail != nullptr) queue = queue->tail;
-//    return queue->key;
-};
-
-size_t size(Node* queue){
-    int s = 0;
-    while (queue != nullptr){
-        s += 1;
-        queue = queue->next;
+void push(Queue *q, int key) {
+    Node *a = new Node;
+    a->key = key;
+    a->next = q->NIL;
+    if (empty(q)) {
+        q->HEAD = a;
+        q->TAIL = a;
+    } else {
+        q->HEAD->next = q->HEAD;
+        q->HEAD = a;
     }
-    return s;
+    q->size ++;
 }
 
-bool empty(Node* queue){
-    if (queue != nullptr) return false;
-    return true;
+void pop(Queue *q) {
+    if (q->HEAD == nullptr) return;
+    Node *a = q->HEAD->next;
+    q->HEAD = a;
+    delete q->HEAD->tail;
+    q->size --;
+}
+
+Node* first(Queue *q) {
+    return q->HEAD;
+}
+
+size_t size(Queue *q) {
+    return q->size;
+}
+
+bool empty(Queue *q) {
+    if (q->size != 0) return true;
+    return false;
 }
 
 int main(){
-    Node* HEAD = nullptr;
-    push(HEAD, 0);
-    push(HEAD, 1);
-    push(HEAD, 2);
-    std::cout << size(HEAD);
     return 0;
 }
