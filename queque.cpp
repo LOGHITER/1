@@ -3,88 +3,57 @@
 struct Node
 {
     Node* next = nullptr;
+    Node* tail = nullptr;
     int key = 0;
 };
 
 
 struct queue
 {
-    Node* HEAD;
-    Node* TAIL;
-    Node* NIL;
+    Node* HEAD = nullptr;
+    Node* TAIL = nullptr;
+    Node* NIL = nullptr;
     size_t size = 0;
 };
 
-void push_front(Node* queue, int new_data){
+void push(Node* queue, int new_data){
     Node* new_node = new Node;
     new_node->key = new_data;
     new_node->next = queue;
     queue = new_node;
 }
 
-void push_back(Node* queue, int new_data){
+void pop(Node* queue){
     Node* new_node = new Node;
-    new_node->key = new_data;
-    Node* ptr = queue;
-    if (ptr == nullptr){
-        queue = new_node;
-        return;
-    }
-    while (ptr->next != nullptr) {
-        ptr = ptr->next;
-    }
-    ptr->next = new_node;
+    new_node = queue->next;
+    delete queue;
+    queue = new_node;
 }
 
-void insert_after(Node* queue, int new_data){
-    Node* new_node = new Node;
-    new_node->key = new_data;
-    new_node->next = queue->next;
-    queue->next = new_node;
-}
+void first(Node* queue){
+    while(queue->tail != nullptr) queue = queue->tail;
+//    return queue->key;
+};
 
-void destroy_list(Node* queue){
-    if(queue == nullptr) {
-        return;
+size_t size(Node* queue){
+    int s = 0;
+    while (queue != nullptr){
+        s += 1;
+        queue = queue->next;
     }
-    destroy_list(queue->next);
-    delete queue->next;
-    queue = nullptr;
+    return s;
 }
 
-void print_list(Node* queue){
-    if (queue == nullptr){
-        std::cout << "\n";
-        return;
-    } 
-    Node* ptr = queue;
-  while (ptr->next != nullptr) {
-    std::cout << ptr->key << ' ';
-    ptr = ptr->next;
-  }
-  std::cout << ptr->key << "\n";
+bool empty(Node* queue){
+    if (queue != nullptr) return false;
+    return true;
 }
 
-Node* find(Node* queue, int key) {
-    Node* ptr = queue;
-    while (ptr != nullptr && ptr->key != key)
-        ptr = ptr->next;
-    return ptr;
-}
-
-void remove_key(Node* queue, int key) {
-    Node* ptr = queue;
-    Node* prev_ptr = queue;
-    while (ptr != nullptr && ptr->key != key) {
-        prev_ptr = ptr;
-        ptr = ptr->next;
-    }
-    if (ptr != nullptr) {
-        Node* next = ptr->next;
-        if (prev_ptr != ptr) {
-            prev_ptr->next = next;
-            queue = prev_ptr;
-        } else queue = ptr->next;
-        delete ptr;
-    }
+int main(){
+    Node* HEAD = nullptr;
+    push(HEAD, 0);
+    push(HEAD, 1);
+    push(HEAD, 2);
+    std::cout << size(HEAD);
+    return 0;
 }
